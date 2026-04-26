@@ -17,21 +17,6 @@ if "messages" not in st.session_state:
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
-#voice input
-audio = st.audio_input(" Speak your message")
-if audio:
-        st.chat_message("user").write("🎙️ Voice message sent")
-        st.session_state.messages.append({"role": "user", "content": "🎙️ Voice message sent"})
-
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents="Respond to this audio message: please reply in text"
-        )
-        reply = response.text
-        st.chat_message("assistant").write(reply)
-        st.session_state.messages.append({"role": "assistant", "content": reply})
-
-
 #text and file input
 user_input = st.chat_input("Ask me anything...", accept_file=True, file_type=["png", "jpg", "jpeg", "pdf", "txt"])
 if user_input:

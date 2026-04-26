@@ -1,5 +1,4 @@
 import streamlit as st
-from click import prompt
 from google import genai
 import os
 import PIL.Image
@@ -31,7 +30,7 @@ for msg in st.session_state.messages:
 
         response = client.models.generate_content(
             model="gemini-2.5-flash",
-            contents=["Transcribe and respond to this audio", audio.read()]
+            contents="Respond to this audio message: please reply in text"
         )
         reply = response.text
         st.chat_message("assistant").write(reply)
@@ -43,22 +42,22 @@ for msg in st.session_state.messages:
 user_input = st.chat_input("Ask me anything...", accept_file=True, file_type=["png", "jpg", "jpeg", "pdf", "txt"])
 
 if user_input:
-    prompt = user_input.text
-    files = user_input.files
+    prompt = str(user_input["text"]) if user_input["text"] else ""
+    files = user_input["files"]
 
-    st.chat_message("user").write(user_input)
-    st.session_state.messages.append({"role": "user", "content": user_input})
+    st.chat_message("user").write(prompt if prompt else "📎 File sent")
+    st.session_state.messages.append({"role": "user", "content": prompt if prompt else "📎 File sent"})
 
     if files:
         image = PIL.Image.open(files[0])
         response = client.models.generate_content(
             model="gemini-2.5-flash",
-            contents=[user_input, image]
+            contents=[{"text": prompt}, {"inline_data": {"mime_type": "image/jpeg", "data": files[0].getvalue()}}]
         )
     else:
          response = client.models.generate_content(
         model="gemini-2.5-flash",
-        contents=user_input
+        contents=[{"text": prompt}]
     )
     reply = response.text
     st.chat_message("assistant").write(reply)

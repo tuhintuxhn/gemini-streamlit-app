@@ -10,7 +10,7 @@ for m in client.models.list():
 
 
 st.set_page_config(page_title="TUHIN App")
-st.title(" AI Assistant")
+st.title("  🤖 AI Assistant")
 
 
 if "messages" not in st.session_state:

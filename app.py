@@ -18,7 +18,7 @@ for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
 
-col1, col2 = st.columns([1, 1])
+col1, col2 = st.columns([4, 1])
 
 with col1:
     user_input = st.chat_input("Ask me anything...", accept_file=True, file_type=["png", "jpg", "jpeg", "pdf", "txt"])

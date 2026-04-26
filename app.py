@@ -10,7 +10,7 @@ for m in client.models.list():
 
 
 st.set_page_config(page_title="TUHIN App")
-st.title(" TUHIN Chatbot")
+st.title(" AI Assistant")
 
 
 if "messages" not in st.session_state:
@@ -21,7 +21,7 @@ for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
 
-user_input = st.chat_input("Type your text...")
+user_input = st.chat_input("Ask me anything...")
 
 if user_input:
 

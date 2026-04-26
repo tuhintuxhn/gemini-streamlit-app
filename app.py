@@ -24,7 +24,7 @@ with col1:
     user_input = st.chat_input("Ask me anything...", accept_file=True, file_type=["png", "jpg", "jpeg", "pdf", "txt"])
 
 with col2:
-    audio = st.audio_input("🎙️")
+    audio = st.audio_input(" ")
 
 
 #voice input

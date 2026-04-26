@@ -1,4 +1,5 @@
 import streamlit as st
+from click import prompt
 from google import genai
 import os
 import PIL.Image
@@ -21,17 +22,17 @@ if "messages" not in st.session_state:
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
-uploaded_file = st.file_uploader("Upload image or file", type=["png", "jpg", "jpeg", "pdf", "txt"])
-
-user_input = st.chat_input("Ask me anything...")
+user_input = st.chat_input("Ask me anything...", accept_file=True, file_type=["png", "jpg", "jpeg", "pdf", "txt"])
 
 if user_input:
+    prompt = user_input.text
+    files = user_input.files
 
     st.chat_message("user").write(user_input)
     st.session_state.messages.append({"role": "user", "content": user_input})
 
-    if uploaded_file is not None:
-        image = PIL.Image.open(uploaded_file)
+    if files:
+        image = PIL.Image.open(files[0])
         response = client.models.generate_content(
             model="gemini-2.5-flash",
             contents=[user_input, image]

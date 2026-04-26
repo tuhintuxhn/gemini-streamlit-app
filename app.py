@@ -17,9 +17,17 @@ if "messages" not in st.session_state:
 for msg in st.session_state.messages:
     st.chat_message(msg["role"]).write(msg["content"])
 
-#voice input
-audio = st.audio_input("🎙️ Speak your message")
 
+col1, col2 = st.columns([3, 1])
+
+with col1:
+    user_input = st.chat_input("Ask me anything...", accept_file=True, file_type=["png", "jpg", "jpeg", "pdf", "txt"])
+
+with col2:
+    audio = st.audio_input("🎙️")
+
+
+#voice input
 if audio:
         st.chat_message("user").write("🎙️ Voice message sent")
         st.session_state.messages.append({"role": "user", "content": "🎙️ Voice message sent"})
@@ -34,8 +42,6 @@ if audio:
 
 
 #text and file input
-user_input = st.chat_input("Ask me anything...", accept_file=True, file_type=["png", "jpg", "jpeg", "pdf", "txt"])
-
 if user_input:
     prompt = str(user_input["text"]) if user_input["text"] else ""
     files = user_input["files"]
